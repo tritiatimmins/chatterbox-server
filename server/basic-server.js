@@ -54,26 +54,3 @@ server.listen(port, ip);
 // server.listen() will continue running as long as there is the
 // possibility of serving more requests. To stop your server, hit
 // Ctrl-C on the command line.
-
-//get request attempt
-
-var options = {
-  host: 'https://api.parse.com',
-  path: '/classes/chatterbox'
-};
-
-callback = function(response) {
-  var str = '';
-
-//   //another chunk of data has been recieved, so append it to `str`
-  response.on('data', function (chunk) {
-    str += chunk;
-  });
-
-//   //the whole response has been recieved, so we just print it out here
-  response.on('end', function () {
-    console.log("info from parse api server", str);
-  });
-}
-
-// https.request(options, callback).end();

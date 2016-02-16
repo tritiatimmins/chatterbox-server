@@ -56,7 +56,7 @@ module.exports = function(request, response) {
   // node to actually send all the data over to the client.
   if(request.url === "/classes/messages") {
     console.log("this is the classes/messages", request.url);
-    response.end("classes/messages");
+    response.end("Here are your messages");
 
   } else{
     console.log("this is the default request.url", request.url);
