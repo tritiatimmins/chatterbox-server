@@ -56,7 +56,8 @@ module.exports = function(request, response) {
   // node to actually send all the data over to the client.
   if(request.url === "/classes/messages") {
     console.log("response statusCode on classes/messages request:", response.statusCode );
-    var msg = JSON.stringify( "Hello, you issued a request to " + request.url );
+    //var msg = JSON.stringify( "Hello, you issued a request to " + request.url );
+    var msg = JSON.stringify( { results: [1,2,3] } );
     response.end( msg );
 
   } else{

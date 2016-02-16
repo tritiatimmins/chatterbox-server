@@ -16,7 +16,7 @@ describe('server', function() {
     });
   });
 
-  xit('should send back an object', function(done) {
+  it('should send back an object', function(done) {
     request('http://127.0.0.1:3000/classes/messages', function(error, response, body) {
       parsedBody = JSON.parse(body);
       expect(parsedBody).to.be.an('object');
@@ -24,7 +24,7 @@ describe('server', function() {
     });
   });
 
-  xit('should send an object containing a `results` array', function(done) {
+  it('should send an object containing a `results` array', function(done) {
     request('http://127.0.0.1:3000/classes/messages', function(error, response, body) {
       parsedBody = JSON.parse(body);
       expect(parsedBody).to.be.an('object');
