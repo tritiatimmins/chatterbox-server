@@ -29,6 +29,8 @@ module.exports = function(request, response) {
   // console.logs in your code.
   console.log("Serving request type " + request.method + " for url " + request.url);
 
+
+
   // The outgoing status.
   var statusCode = 200;
 
@@ -52,7 +54,19 @@ module.exports = function(request, response) {
   //
   // Calling .end "flushes" the response's internal buffer, forcing
   // node to actually send all the data over to the client.
-  response.end("Hello, World!!!!");
+  if(request.url === "/classes/messages") {
+    console.log("this is the classes/messages", request.url);
+    response.end("classes/messages");
+
+  } else{
+    console.log("this is the default request.url", request.url);
+    response.end("hello world");
+
+  }
+
+console.log("this is the request.url", request.url);
+  // response.end("Hello, World!!!!");
+  // response.end('{"message": "Hello world!"}');
 };
 
 // These headers will allow Cross-Origin Resource Sharing (CORS).

@@ -2,6 +2,8 @@ var handleRequest = require("./request-handler.js");
 
 /* Import node's http module: */
 var http = require("http");
+var https = require("https");
+
 
 
 // Every server needs to listen on a port with a unique number. The
@@ -53,3 +55,25 @@ server.listen(port, ip);
 // possibility of serving more requests. To stop your server, hit
 // Ctrl-C on the command line.
 
+//get request attempt
+
+var options = {
+  host: 'https://api.parse.com',
+  path: '/classes/chatterbox'
+};
+
+callback = function(response) {
+  var str = '';
+
+//   //another chunk of data has been recieved, so append it to `str`
+  response.on('data', function (chunk) {
+    str += chunk;
+  });
+
+//   //the whole response has been recieved, so we just print it out here
+  response.on('end', function () {
+    console.log("info from parse api server", str);
+  });
+}
+
+// https.request(options, callback).end();
