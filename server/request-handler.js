@@ -12,6 +12,8 @@ this file and include it in basic-server.js so that it actually works.
 
 **************************************************************/
 
+var body = '';
+
 module.exports = function(request, response) {
   // Request and Response come from node's http module.
   //
@@ -55,19 +57,44 @@ module.exports = function(request, response) {
   //
   // Calling .end "flushes" the response's internal buffer, forcing
   // node to actually send all the data over to the client.
-  if( request.url === "/classes/messages") {
 
-    if( request.method === 'POST' ) {
-      response.writeHead( 201, headers);
-      console.log("request.body", request.body)
-      response.end( JSON.stringify(request.body) );
-    }
-    else {
+
+
+  if( request.method === 'POST' ) {
+    
+    body = '';
+
+    request.on('data', function(chunk) {
+      body += chunk;
+      console.log("body at current chunk:", body );
+    });
+    request.on('end', function() {
+      response.writeHead( 201 );
+      response.end();
+    });
+
+    //response.writeHead( 201, headers);
+    //console.log("request.body", request);
+    //response.end( JSON.stringify(request.body) );
+  }
+
+  if( request.method === 'GET' ) {
+    var data = JSON.parse(body);
+    console.log("data to send back:", data );
+    response.writeHead( 200 );
+    response.end( JSON.stringify({ results: [data] }) );
+  }
+
+  /*
+  else if( request.url === "/classes/messages") {
+
+    
+    //else {
       response.writeHead( 200, headers);
       var msg = JSON.stringify( { results: [1,2,3] } );
       response.end( msg );
       console.log("response statusCode on classes/messages request:", response.statusCode );
-    }
+    //}
 
   } else {
     response.writeHead( 200, headers);
@@ -78,6 +105,7 @@ module.exports = function(request, response) {
   //console.log("this is the request.url", request.url);
   // response.end("Hello, World!!!!");
   // response.end('{"message": "Hello world!"}');
+  */
 };
 
 // These headers will allow Cross-Origin Resource Sharing (CORS).
