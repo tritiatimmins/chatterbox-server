@@ -41,7 +41,7 @@ module.exports = function(request, response) {
   //
   // You will need to change this if you are sending something
   // other than plain text, like JSON or HTML.
-  headers['Content-Type'] = "text/plain";
+  headers['Content-Type'] = 'application/json';
 
   // .writeHead() writes to the request line and headers of the response,
   // which includes the status and all headers.
@@ -54,13 +54,10 @@ module.exports = function(request, response) {
   //
   // Calling .end "flushes" the response's internal buffer, forcing
   // node to actually send all the data over to the client.
-  if(request.url === "/log") {
-    console.log("response statusCode on /log request:", response.statusCode );
-    response.end("Hello, you issued a request to " + request.url );
-
-  } else if(request.url === "/classes/messages") {
+  if(request.url === "/classes/messages") {
     console.log("response statusCode on classes/messages request:", response.statusCode );
-    response.end("Hello, you issued a request to " + request.url );
+    var msg = JSON.stringify( "Hello, you issued a request to " + request.url );
+    response.end( msg );
 
   } else{
     console.log("response statusCode on localhost root request:", response.statusCode );
