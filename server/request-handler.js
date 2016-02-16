@@ -54,17 +54,20 @@ module.exports = function(request, response) {
   //
   // Calling .end "flushes" the response's internal buffer, forcing
   // node to actually send all the data over to the client.
-  if(request.url === "/classes/messages") {
-    console.log("this is the classes/messages", request.url);
-    response.end("Here are your messages");
+  if(request.url === "/log") {
+    console.log("response statusCode on /log request:", response.statusCode );
+    response.end("Hello, you issued a request to " + request.url );
+
+  } else if(request.url === "/classes/messages") {
+    console.log("response statusCode on classes/messages request:", response.statusCode );
+    response.end("Hello, you issued a request to " + request.url );
 
   } else{
-    console.log("this is the default request.url", request.url);
-    response.end("hello world");
-
+    console.log("response statusCode on localhost root request:", response.statusCode );
+    response.end("Hello, you issued a request to localhost root!");
   }
 
-console.log("this is the request.url", request.url);
+  //console.log("this is the request.url", request.url);
   // response.end("Hello, World!!!!");
   // response.end('{"message": "Hello world!"}');
 };
