@@ -33,7 +33,7 @@ describe('server', function() {
     });
   });
 
-  xit('should accept POST requests to /send', function(done) {
+  it('should accept POST requests to /send', function(done) {
     var requestParams = {method: 'POST',
       uri: 'http://127.0.0.1:3000/classes/messages',
       json: {
@@ -41,13 +41,13 @@ describe('server', function() {
         message: 'Do my bidding!'}
     };
 
-    xrequest(requestParams, function(error, response, body) {
+    request(requestParams, function(error, response, body) {
       expect(response.statusCode).to.equal(201);
       done();
     });
   });
 
-  xit('should respond with messages that were previously posted', function(done) {
+  it('should respond with messages that were previously posted', function(done) {
     var requestParams = {method: 'POST',
       uri: 'http://127.0.0.1:3000/classes/messages',
       json: {

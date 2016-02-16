@@ -32,7 +32,7 @@ module.exports = function(request, response) {
 
 
   // The outgoing status.
-  var statusCode = 200;
+  //var statusCode = 200;
 
   // See the note below about CORS headers.
   var headers = defaultCorsHeaders;
@@ -45,7 +45,8 @@ module.exports = function(request, response) {
 
   // .writeHead() writes to the request line and headers of the response,
   // which includes the status and all headers.
-  response.writeHead(statusCode, headers);
+
+  // response.writeHead(statusCode, headers);
 
   // Make sure to always call response.end() - Node may not send
   // anything back to the client until you do. The string you pass to
@@ -54,13 +55,22 @@ module.exports = function(request, response) {
   //
   // Calling .end "flushes" the response's internal buffer, forcing
   // node to actually send all the data over to the client.
-  if(request.url === "/classes/messages") {
-    console.log("response statusCode on classes/messages request:", response.statusCode );
-    //var msg = JSON.stringify( "Hello, you issued a request to " + request.url );
-    var msg = JSON.stringify( { results: [1,2,3] } );
-    response.end( msg );
+  if( request.url === "/classes/messages") {
 
-  } else{
+    if( request.method === 'POST' ) {
+      response.writeHead( 201, headers);
+      console.log("request.body", request.body)
+      response.end( JSON.stringify(request.body) );
+    }
+    else {
+      response.writeHead( 200, headers);
+      var msg = JSON.stringify( { results: [1,2,3] } );
+      response.end( msg );
+      console.log("response statusCode on classes/messages request:", response.statusCode );
+    }
+
+  } else {
+    response.writeHead( 200, headers);
     console.log("response statusCode on localhost root request:", response.statusCode );
     response.end("Hello, you issued a request to localhost root!");
   }
