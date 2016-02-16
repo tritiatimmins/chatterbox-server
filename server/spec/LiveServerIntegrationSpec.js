@@ -2,21 +2,21 @@ var request = require('request');
 var expect = require('../../node_modules/chai/chai').expect;
 
 describe('server', function() {
-  xit('should respond to GET requests for /log with a 200 status code', function(done) {
+  it('should respond to GET requests for /log with a 200 status code', function(done) {
     request('http://127.0.0.1:3000/classes/messages', function(error, response, body) {
       expect(response.statusCode).to.equal(200);
       done();
     });
   });
 
-  xit('should send back parsable stringified JSON', function(done) {
+  it('should send back parsable stringified JSON', function(done) {
     request('http://127.0.0.1:3000/classes/messages', function(error, response, body) {
       expect(JSON.parse.bind(this, body)).to.not.throw();
       done();
     });
   });
 
-  xit('should send back an object', function(done) {
+  it('should send back an object', function(done) {
     request('http://127.0.0.1:3000/classes/messages', function(error, response, body) {
       parsedBody = JSON.parse(body);
       expect(parsedBody).to.be.an('object');
@@ -24,7 +24,7 @@ describe('server', function() {
     });
   });
 
-  xit('should send an object containing a `results` array', function(done) {
+  it('should send an object containing a `results` array', function(done) {
     request('http://127.0.0.1:3000/classes/messages', function(error, response, body) {
       parsedBody = JSON.parse(body);
       expect(parsedBody).to.be.an('object');
@@ -33,7 +33,7 @@ describe('server', function() {
     });
   });
 
-  xit('should accept POST requests to /send', function(done) {
+  it('should accept POST requests to /send', function(done) {
     var requestParams = {method: 'POST',
       uri: 'http://127.0.0.1:3000/classes/messages',
       json: {
@@ -41,7 +41,7 @@ describe('server', function() {
         message: 'Do my bidding!'}
     };
 
-    xrequest(requestParams, function(error, response, body) {
+    request(requestParams, function(error, response, body) {
       expect(response.statusCode).to.equal(201);
       done();
     });
