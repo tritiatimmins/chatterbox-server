@@ -34,7 +34,7 @@ var server = http.createServer(function(request, response){
 
 ***********************************************************************/
 
-var server = http.createServer( handler );
+var server = http.createServer( handler.requestHandler );
 
 console.log("Listening on http://" + ip + ":" + port);
 server.listen(port, ip);

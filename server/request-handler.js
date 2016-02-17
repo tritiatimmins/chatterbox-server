@@ -14,7 +14,7 @@ this file and include it in basic-server.js so that it actually works.
 
 var body = '';
 
-module.exports = function(request, response) {
+module.exports.requestHandler = function(request, response) {
 
   // Request and Response come from node's http module.
   //
@@ -70,7 +70,6 @@ module.exports = function(request, response) {
       }
       else {
         var data = JSON.parse(body);
-        console.log("data to send back:", data );
         response.end( JSON.stringify({ results: [data] }) );
       }
     }
@@ -81,7 +80,6 @@ module.exports = function(request, response) {
 
       request.on('data', function(chunk) {
         body += chunk;
-        console.log("body at current chunk:", body );
       });
 
       request.on('end', function() {
@@ -90,15 +88,34 @@ module.exports = function(request, response) {
       });
     }
   }
-  
+
   else if( request.url === "/classes/room1") {
 
-    console.log("we got to classes/room" );
+    if( request.method === 'GET' ) {
 
-    if( request.method === 'GET' ) {  
-      console.log("we got a classes/room GET request" );
       response.writeHead( 200, headers );
-      response.end();
+
+      if( body === '' ) {
+        response.end( JSON.stringify( { results: [] } ) );
+      }
+      else {
+        var data = JSON.parse(body);
+        response.end( JSON.stringify({ results: [data] }) );
+      }
+    }
+    else if( request.method === 'POST' ) {
+      
+      body = ''; //resets to empty
+
+      request.on('data', function(chunk) {
+        body += chunk;
+      });
+
+      request.on('end', function() {
+        response.writeHead( 201, headers );
+        response.end();
+      });
+
     }
   }
 

@@ -17,15 +17,13 @@ describe('Node Server Request Listener Function', function() {
     var req = new stubs.request('/classes/room1', 'GET');
     var res = new stubs.response();
 
-    console.log("handler is:", handler );
-
     handler.requestHandler(req, res);
 
     expect(res._responseCode).to.equal(200);
     expect(res._ended).to.equal(true);
   });
 
-  xit('Should send back parsable stringified JSON', function() {
+  it('Should send back parsable stringified JSON', function() {
     var req = new stubs.request('/classes/room1', 'GET');
     var res = new stubs.response();
 
@@ -35,7 +33,7 @@ describe('Node Server Request Listener Function', function() {
     expect(res._ended).to.equal(true);
   });
 
-  xit('Should send back an object', function() {
+  it('Should send back an object', function() {
     var req = new stubs.request('/classes/room1', 'GET');
     var res = new stubs.response();
 
@@ -46,7 +44,7 @@ describe('Node Server Request Listener Function', function() {
     expect(res._ended).to.equal(true);
   });
 
-  xit('Should send an object containing a `results` array', function() {
+  it('Should send an object containing a `results` array', function() {
     var req = new stubs.request('/classes/room1', 'GET');
     var res = new stubs.response();
 
@@ -58,7 +56,7 @@ describe('Node Server Request Listener Function', function() {
     expect(res._ended).to.equal(true);
   });
 
-  xit('Should accept posts to /classes/room', function() {
+  it('Should accept posts to /classes/room', function() {
     var stubMsg = {
       username: 'Jono',
       message: 'Do my bidding!'
@@ -77,7 +75,7 @@ describe('Node Server Request Listener Function', function() {
     expect(res._ended).to.equal(true);
   });
 
-xit('Should respond with messages that were previously posted', function() {
+it('Should respond with messages that were previously posted', function() {
     var stubMsg = {
       username: 'Jono',
       message: 'Do my bidding!'
@@ -104,7 +102,7 @@ xit('Should respond with messages that were previously posted', function() {
   });
 
 
-  xit('Should 404 when asked for a nonexistent file', function() {
+  it('Should 404 when asked for a nonexistent file', function() {
     var req = new stubs.request('/arglebargle', 'GET');
     var res = new stubs.response();
 
