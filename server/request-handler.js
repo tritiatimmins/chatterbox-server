@@ -15,6 +15,7 @@ this file and include it in basic-server.js so that it actually works.
 var body = '';
 
 module.exports = function(request, response) {
+
   // Request and Response come from node's http module.
   //
   // They include information about both the incoming request, such as
@@ -58,37 +59,53 @@ module.exports = function(request, response) {
   // Calling .end "flushes" the response's internal buffer, forcing
   // node to actually send all the data over to the client.
 
-if( request.url === "/classes/messages") {
+  if( request.url === "/classes/messages") {
 
-  if( request.method === 'GET' ) {    
+    if( request.method === 'GET' ) {    
 
-    response.writeHead( 200, headers );
-    
-    if( body === '' ) {
-      response.end( JSON.stringify( { results: [] } ) );
+      response.writeHead( 200, headers );
+      
+      if( body === '' ) {
+        response.end( JSON.stringify( { results: [] } ) );
+      }
+      else {
+        var data = JSON.parse(body);
+        console.log("data to send back:", data );
+        response.end( JSON.stringify({ results: [data] }) );
+      }
     }
-    else {
-      var data = JSON.parse(body);
-      console.log("data to send back:", data );
-      response.end( JSON.stringify({ results: [data] }) );
+
+    else if( request.method === 'POST' ) {
+      
+      body = ''; //resets to empty
+
+      request.on('data', function(chunk) {
+        body += chunk;
+        console.log("body at current chunk:", body );
+      });
+
+      request.on('end', function() {
+        response.writeHead( 201, headers );
+        response.end();
+      });
     }
   }
+  
+  else if( request.url === "/classes/room1") {
 
-  else if( request.method === 'POST' ) {
-    
-    body = ''; //resets to empty
+    console.log("we got to classes/room" );
 
-    request.on('data', function(chunk) {
-      body += chunk;
-      console.log("body at current chunk:", body );
-    });
-
-    request.on('end', function() {
-      response.writeHead( 201 );
+    if( request.method === 'GET' ) {  
+      console.log("we got a classes/room GET request" );
+      response.writeHead( 200, headers );
       response.end();
-    });
+    }
   }
-}
+
+  else {
+    response.writeHead( 404, headers );
+    response.end();
+  }
 
 };
 
@@ -107,4 +124,5 @@ var defaultCorsHeaders = {
   "access-control-allow-headers": "content-type, accept",
   "access-control-max-age": 10 // Seconds.
 };
+
 
